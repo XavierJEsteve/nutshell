@@ -8,7 +8,6 @@
 int yylex();
 extern char *yytext;
 
-
 void print_line(void) {
     printf("\n>> ");
 }
@@ -77,7 +76,6 @@ void state_machine(void) {
         }//end switch
     }//end while
 }
-
 
 int main(void){
     //Enter state machine
