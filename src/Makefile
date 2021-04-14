@@ -1,20 +1,20 @@
 # Simple Makefile
 
-CC=/usr/bin/cc
+CC=/usr/bin/g++
 
 #all:  bison-config flex-config nutshell
-all:   flex-config questshell
+all:   flex-config nutshell
 
 #bison-config:
-#	bison -d nutshparser.y
+	bison -d ns_parse.y
 
 flex-config:
-	flex quest.l
+	flex ns_lex.l
 
-questshell: 
-	#$(CC) nutshell.c nutshparser.tab.c lex.yy.c -o nutshell.o
-	$(CC) quest.c lex.yy.c -o questshell.o -lfl
+nutshell:
+#	$(CC) nutshell.cpp ns_parse.tab.c lex.yy.c -o nutshell.o
+	$(CC) nutshell.cpp lex.yy.c -o Nutshell
 
 clean:
-	#rm nutshparser.tab.c nutshparser.tab.h lex.yy.c
+#	rm ns_parse.tab.c ns_parse.tab.h lex.yy.c
 	rm lex.yy.c

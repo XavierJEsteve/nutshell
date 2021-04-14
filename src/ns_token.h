@@ -1,7 +1,8 @@
 // quest_token.h
 
 enum token_type {
-        NAME = 1,
+        WORD = 1,
         QUEST,
-        COLOR
+        COLOR,
+        BYE
 };

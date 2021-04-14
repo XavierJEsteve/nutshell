@@ -322,6 +322,9 @@ void yyfree ( void *  );
 #define YY_AT_BOL() (YY_CURRENT_BUFFER_LVALUE->yy_at_bol)
 
 /* Begin user sect3 */
+
+#define yywrap() (/*CONSTCOND*/1)
+#define YY_SKIP_YYWRAP
 typedef flex_uint8_t YY_CHAR;
 
 FILE *yyin = NULL, *yyout = NULL;
@@ -472,11 +475,12 @@ int yy_flex_debug = 0;
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
 char *yytext;
-#line 1 "ns.l"
-#line 2 "ns.l"
+#line 1 "ns_lex.l"
+#line 2 "ns_lex.l"
+    #include <iostream>
     #include "ns_token.h"
-#line 479 "lex.yy.c"
-#line 480 "lex.yy.c"
+#line 483 "lex.yy.c"
+#line 484 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -693,10 +697,10 @@ YY_DECL
 		}
 
 	{
-#line 5 "ns.l"
+#line 8 "ns_lex.l"
 
 
-#line 700 "lex.yy.c"
+#line 704 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -755,32 +759,34 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 7 "ns.l"
+#line 10 "ns_lex.l"
 {return NAME;}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 8 "ns.l"
-{return QUEST;      /*Quest should be of form "To ...."*/}
+#line 11 "ns_lex.l"
+{return QUEST;    /*Quest should be of form "To ...."*/}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 9 "ns.l"
-{return COLOR;      /*Becasue all colors are just a combination of these*/}
+#line 12 "ns_lex.l"
+{return COLOR;    /*Becasue all colors are just a combination of these*/}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 10 "ns.l"
+#line 13 "ns_lex.l"
 {return -1; /* Really lazy way of filtering out ANYTHING else */}
+	YY_BREAK
+case YY_STATE_EOF(INITIAL):
+#line 14 "ns_lex.l"
+{return BYE;}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 12 "ns.l"
+#line 17 "ns_lex.l"
 ECHO;
 	YY_BREAK
-#line 782 "lex.yy.c"
-case YY_STATE_EOF(INITIAL):
-	yyterminate();
+#line 790 "lex.yy.c"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -1783,5 +1789,5 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 12 "ns.l"
+#line 17 "ns_lex.l"
 
