@@ -3,7 +3,7 @@
 *
 */
 
-#include "ns_token.h"
+//#include "ns_token.h"
 #include <stdio.h>
 int yylex();
 extern char *yytext;
@@ -79,6 +79,9 @@ void state_machine(void) {
 
 int main(void){
     //Enter state machine
-    state_machine();
+    //state_machine();
+    while (1){
+        yyparse();
+    }
     return 0;
 }

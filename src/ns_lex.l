@@ -1,30 +1,28 @@
 %{
+    //#include "ns_token.h"
     #include "ns_parse.tab.h"
 %}
+extern char *yytext;
 
 %option noyywrap
 
 %x EXPECT_Q_WORD
 
 QUOTE    ["]
-NOT_QUOTE [^"]
+NOTQUOTE [^"]
 
 METAC    [<>|"\&"]
-NOT_METAC
-
 TILDE    [~]
 %%
 
-{QUOTE}                         {BEGIN(EXPECT_Q_WORD)}
-<EXPECT_Q_WORD>{NOT_QUOTE}*     {yylval.string_val = new std::string(yytext); return Q_WORD;}
-<EXPECT_Q_WORD>{QUOTE}          BEGIN(INITIAL);
+{QUOTE}                         {BEGIN(EXPECT_Q_WORD);}
+<EXPECT_Q_WORD>{NOTQUOTE}*      {return Q_WORD;}
+<EXPECT_Q_WORD>{QUOTE}          {BEGIN(INITIAL);}
 
-[a-zA-Z0-9\.\-]+                {yylval.string_val = new std::string(yytext); return WORD;}
-"<"                             {return LT;}
-">"                             {return GT;}
-"&"                             {return AMP;}
-                                
-    {/*Built-in commands*/}
+[a-zA-Z0-9\.\-]+                {return WORD;}
+[<]                             {return FILEIN;}
+[>]                             {return FILEOUT;}
+[&]                             {return AMP;}
 setenv                          {return SETENV;}
 printenv                        {return PRINTENV;}
 unsetenv                        {return UNSETENV;}

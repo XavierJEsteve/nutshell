@@ -1,5 +1,6 @@
 %{
-    #include "ns_token.h"
+    #include <stdio.h>
+    //#include "ns_token.h"
 
     int yylex();
 
@@ -10,46 +11,47 @@
     }
 %}
 
-%code requires {
-    #include "ns_token.h"
-}
-
-%define api.value.type union
-
 %union {
     char*           string;
     int             ival;
-    command_t*      cmdval;
-    command_list_t* cmdlistval;
+    //command_t*      cmdval;
+    //command_list_t* cmdlistval;
 }
 
 %token WORD Q_WORD 
 %token FILEIN FILEOUT PIPE
 %token SETENV PRINTENV UNSETENV
 %token CD
+%token AMP
 %token ALIAS UNALIAS
 %token BYE
 
+
+%% 
+
 WORD_OBJ:
-    WORD
-    | Q_WORD
+    WORD        {printf("Found a word");}
+    | Q_WORD    {printf("Found a quoted word");}
 
 IO_OBJ:
-    FILEIN
-    | FILEOUT
-    | PIPE
+    FILEIN      {printf("Found FILEIN");}
+    | FILEOUT   {printf("Found FILEOUT");}
+    | PIPE      {printf("Found a PIPE");}
 
 ENV_OBJ:
-    SETENV
-    | PRINTENV
-    | UNSETENV
+    SETENV      {printf("Found SETENV");}
+    | PRINTENV  {printf("Found PRINTENV");}
+    | UNSETENV  {printf("Found UNSETENV");}
 
 DIR_OBJ:
-    CD
+    CD          {printf("Found CD");}
+
+AMP_OBJ:
+    AMP         {printf("Found an &");}
 
 ALIAS_OBJ:
-    ALIAS
-    | UNALIAS
+    ALIAS       {printf("Found an ALIAS");}
+    | UNALIAS   {printf("Found UNALIAS");}
 
 EXIT_CODE:
-    BYE
+    BYE         {printf("Bye then");}
