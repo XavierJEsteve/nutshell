@@ -1,12 +1,20 @@
 %{
     #include "ns_token.h"
 
-    extern char *yytext;
+    int yylex();
 
-    void yyerror(const char *s){
-        fprintf(stderr," ERROR: %s", s);
+    int yyparse();
+
+    void yyerror(const char *e){
+        fprintf(stderr," ERROR: %s\n", e);
     }
 %}
+
+%code requires {
+    #include "ns_token.h"
+}
+
+%define api.value.type union
 
 %union {
     std::string *string_val;

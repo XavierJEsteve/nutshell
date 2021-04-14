@@ -2,7 +2,5 @@
 
 enum token_type {
         WORD = 1,
-        QUEST,
-        COLOR,
-        BYE
+        Q_WORD
 };
