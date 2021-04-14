@@ -6,6 +6,7 @@
 //#include "ns_token.h"
 #include <stdio.h>
 int yylex();
+extern int yyparse();
 extern char *yytext;
 
 void print_line(void) {

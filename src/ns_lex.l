@@ -34,8 +34,7 @@ bye                             {return BYE;}
 
 
 [.]                             {return (int) yytext[0];  /* In the future, make this increase CHAR count */}
-[\n]                            {return -1;               /* In the future, make this increase LINE count */}
-[ \t\r]+                  	    { /* Whitespace - ignore */ }
+[ \t\r\n]+                  	    { /* Whitespace - ignore */ }
 <<EOF>>                         { return BYE;}
 
 %%
