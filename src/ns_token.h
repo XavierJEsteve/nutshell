@@ -3,8 +3,8 @@
 enum token_type {
         WORD = 1,
         Q_WORD,
-        LT, // <
-        GT, // >
+        FILEIN, // <
+        FILEOUT, // >
         PIPE, // |
         SETENV,
         PRINTENV,
