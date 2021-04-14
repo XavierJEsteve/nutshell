@@ -20,12 +20,24 @@ TILDE    [~]
 <EXPECT_Q_WORD>{QUOTE}          BEGIN(INITIAL);
 
 [a-zA-Z0-9\.\-]+                {yylval.string_val = new std::string(yytext); return WORD;}
+"<"                             {return LT;}
+">"                             {return GT;}
+"&"                             {return AMP;}
+                                
+    {/*Built-in commands*/}
+setenv                          {return SETENV;}
+printenv                        {return PRINTENV;}
+unsetenv                        {return UNSETENV;}
+cd                              {return CD;}
+alias                           {return ALIAS;}
+unalias                         {return UNALIAS;}
+bye                             {return BYE;}
 
 
 
 [.]                             {return (int) yytext[0];  /* In the future, make this increase CHAR count */}
 [\n]                            {return -1;               /* In the future, make this increase LINE count */}
 [ \t\r]+                  	    { /* Whitespace - ignore */ }
-<<EOF>>                         { exit(0); }
+<<EOF>>                         { return BYE;}
 
 %%
