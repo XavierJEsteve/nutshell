@@ -472,9 +472,9 @@ int yy_flex_debug = 0;
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
 char *yytext;
-#line 1 "quest.l"
-#line 2 "quest.l"
-    #include "quest_token.h"
+#line 1 "ns.l"
+#line 2 "ns.l"
+    #include "ns_token.h"
 #line 479 "lex.yy.c"
 #line 480 "lex.yy.c"
 
@@ -693,7 +693,7 @@ YY_DECL
 		}
 
 	{
-#line 5 "quest.l"
+#line 5 "ns.l"
 
 
 #line 700 "lex.yy.c"
@@ -755,27 +755,27 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 7 "quest.l"
+#line 7 "ns.l"
 {return NAME;}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 8 "quest.l"
+#line 8 "ns.l"
 {return QUEST;      /*Quest should be of form "To ...."*/}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 9 "quest.l"
+#line 9 "ns.l"
 {return COLOR;      /*Becasue all colors are just a combination of these*/}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 10 "quest.l"
+#line 10 "ns.l"
 {return -1; /* Really lazy way of filtering out ANYTHING else */}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 12 "quest.l"
+#line 12 "ns.l"
 ECHO;
 	YY_BREAK
 #line 782 "lex.yy.c"
@@ -1783,5 +1783,5 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 12 "quest.l"
+#line 12 "ns.l"
 

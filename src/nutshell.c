@@ -3,7 +3,7 @@
 *
 */
 
-#include "quest_token.h"
+#include "ns_token.h"
 #include <stdio.h>
 int yylex();
 extern char *yytext;
