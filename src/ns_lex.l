@@ -5,36 +5,34 @@
 extern char *yytext;
 
 %option noyywrap
+%option yylineno
 
-%x EXPECT_Q_WORD
 
 QUOTE    ["]
 NOTQUOTE [^"]
 
 METAC    [<>|"\&"]
 TILDE    [~]
+
 %%
 
-{QUOTE}                         {BEGIN(EXPECT_Q_WORD);}
-<EXPECT_Q_WORD>{NOTQUOTE}*      {return Q_WORD;}
-<EXPECT_Q_WORD>{QUOTE}          {BEGIN(INITIAL);}
+">>" { return STDOUT_tk; }
+"2>" { return STDERR_tk; }
+"<"  { return FILEIN_tk; }
+">"  { return FILEOUT_tk; }
+"|"  { return PIPE_tk; }
+"&"  { return AMP_tk; }
+"\\" { printf("(meta %s %u)\n", yytext, yylineno); }
+\"   { printf("(meta %s %u)\n", yytext, yylineno); }
 
-[a-zA-Z0-9\.\-]+                {return WORD;}
-[<]                             {return FILEIN;}
-[>]                             {return FILEOUT;}
-[&]                             {return AMP;}
-setenv                          {return SETENV;}
-printenv                        {return PRINTENV;}
-unsetenv                        {return UNSETENV;}
-cd                              {return CD;}
-alias                           {return ALIAS;}
-unalias                         {return UNALIAS;}
-bye                             {return BYE;}
+\"([^\\\"]|\\.)*\"              {return WORD_tk;}
+[ \t]                  	        { /* Whitespace - ignore */ }
+\n                              {return NEWLINE_tk;}
+.                               {return (int) yytext[0];}
 
 
 
-[.]                             {return (int) yytext[0];  /* In the future, make this increase CHAR count */}
-[ \t\r\n]+                  	    { /* Whitespace - ignore */ }
+
 <<EOF>>                         { return BYE;}
 
 %%
