@@ -2,7 +2,7 @@
     #include <stdio.h>
     //#include "ns_token.h"
 
-    int yylex();
+    extern int yylex();
 
     int yyparse();
 

@@ -1,3 +1,7 @@
+# Flex and Bison output
+*.tab*
+
+
 # Prerequisites
 *.d
 
