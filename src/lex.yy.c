@@ -482,7 +482,7 @@ int yy_flex_debug = 0;
 char *yytext;
 #line 1 "ns_lex.l"
 #line 2 "ns_lex.l"
-    //#include "ns_token.h"
+    #include "util.h"
     #include "ns_parse.tab.h"
     #include <string>
 

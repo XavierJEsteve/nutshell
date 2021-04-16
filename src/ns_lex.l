@@ -1,5 +1,5 @@
 %{
-    //#include "ns_token.h"
+    #include "util.h"
     #include "ns_parse.tab.h"
     #include <string>
 

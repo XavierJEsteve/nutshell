@@ -4,7 +4,7 @@
     #include <string>
     #include <cstring>
     #include <iostream>
-    //#include "ns_token.h"
+    #include "util.h"
 
     int yylex(void);
 
@@ -18,11 +18,19 @@
 %union {
     char            *string;
     int             ival;
+    arg_t*             arg_data;
+    arglist_t*         arglist_data;
     //command_t*      cmdval;
     //command_list_t* cmdlistval;
+    //infile
+    //outfile
 }
 
 %type <string> word
+%type <arg_data> arg
+//%type <arglist_data> arg_list
+
+
 %token <string> WORD_tk
 %token FILEIN_tk FILEOUT_tk PIPE_tk
 %token STDOUT_tk STDERR_tk 
@@ -31,23 +39,25 @@
 %token BYE_tk
 
 // Grammar sections
+// word is the foundation of everything. Word -> argument [word_list] -> command [argument_list]
 %% 
+
+arg:
+    word
+        {
+            printf("Don't you dare argue with me\n"); 
+        }
 
 word:
     WORD_tk
             {
-                printf("You entered a string - %s", $1);
+                int strsize = strlen($1) + 1;
+                char *w = (char *)malloc(sizeof(char) * strlen($1) + 1);
+                assert(w != NULL);
+                strncpy(w, $1, strsize);
+                w[strsize] = 0;
+                $$ = w;
+                printf("%s is the word \n", w); 
             }
-    | WORD_tk NEWLINE_tk
-            {
-                printf("You entered a string with newline\n");
-            }
-    | WORD_tk AMP_tk
-            {
-                printf("You entered a statement\n");
-            }
-    | WORD_tk AMP_tk NEWLINE_tk
-        {
-            printf("You entered a statement with a newline\n");
-        }
             ;
+%%
