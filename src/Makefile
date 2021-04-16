@@ -12,7 +12,7 @@ flex-config:
 	flex ns_lex.l
 
 nutshell:
-	$(CC) nutshell.cpp ns_parse.tab.c lex.yy.c -o nutshell.o
+	$(CC) nutshell.cpp util.cpp ns_parse.tab.c lex.yy.c -o nutshell.o
 #	$(CC) nutshell.cpp lex.yy.c -o Nutshell
 
 clean:

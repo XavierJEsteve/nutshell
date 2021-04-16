@@ -1,13 +1,15 @@
 %{
     #include "stdio.h"    
-    #include <cassert>
     #include <string>
     #include <cstring>
+    #include <array>
+    #include <vector>
+    #include <algorithm>
     #include <iostream>
     #include "util.h"
 
     int yylex(void);
-
+    
     int yyparse();
 
     void yyerror(const char *e){
@@ -20,7 +22,6 @@
     int             ival;
     arg_t*          arg_data;
     arglist_t*      arglist_data;
-    //command_list_t* cmdlistval;
     //infile
     //outfile
 }
@@ -29,7 +30,6 @@
 %type <arg_data> arg
 %type <arglist_data> arg_list
 %type <arglist_data> arg_list_empty
-
 %token <string> WORD_tk
 %token FILEIN_tk FILEOUT_tk PIPE_tk
 %token STDOUT_tk STDERR_tk 
@@ -39,18 +39,31 @@
 
 // Grammar sections
 // word is the foundation of everything. Word -> argument [word_list] -> command [argument_list]
+
+/* NOTE : Use malloc, or suffer segmentation faults*/
+
 %% 
 
 
-
-
+arg_list_empty:   
+                        {
+                            arglist_t *new_arglist = (arglist_t*)malloc(sizeof(arglist_t));
+                            new_arglist->data = NULL;
+                            new_arglist->next = NULL;
+                            $$ = new_arglist;
+                        }
+        | arg_list      {
+                            $$ = $1;
+                        }
+        ;
 
 arg_list:
     arg_list arg        {
-                            arglist_t *new_arglist = (arglist_t*)malloc(sizeof(arglist_t));
+                            arglist_t *new_arglist = (arglist_t*)malloc(sizeof(arglist_t)); 
                             new_arglist->data = $2;
                             new_arglist->next = $1;
                             $$ = new_arglist;
+                            show_arguments(new_arglist);
                             printf("Chaining arguments \n"); 
                         }
     | arg               {   
@@ -78,7 +91,6 @@ word:
                 /*Use malloc, or suffer segmentation faults*/
                 int strsize = strlen($1) + 1;
                 char *w = (char *)malloc(sizeof(char) * strlen($1) + 1);
-                assert(w != NULL);
                 strncpy(w, $1, strsize);
                 w[strsize] = 0;
                 $$ = w;
