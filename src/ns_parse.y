@@ -1,8 +1,12 @@
 %{
-    #include <stdio.h>
+    #include "stdio.h"    
+    #include <cassert>
+    #include <string>
+    #include <cstring>
+    #include <iostream>
     //#include "ns_token.h"
 
-    extern int yylex();
+    int yylex(void);
 
     int yyparse();
 
@@ -12,20 +16,38 @@
 %}
 
 %union {
-    char*           string;
+    char            *string;
     int             ival;
     //command_t*      cmdval;
     //command_list_t* cmdlistval;
 }
 
-%token WORD Q_WORD 
-%token FILEIN FILEOUT PIPE
-%token SETENV PRINTENV UNSETENV
-%token CD
-%token AMP
-%token ALIAS UNALIAS
-%token BYE
+%type <string> word
+%token <string> WORD_tk
+%token FILEIN_tk FILEOUT_tk PIPE_tk
+%token STDOUT_tk STDERR_tk 
+%token NEWLINE_tk
+%token AMP_tk
+%token BYE_tk
 
-
+// Grammar sections
 %% 
 
+word:
+    WORD_tk
+            {
+                printf("You entered a string - %s", $1);
+            }
+    | WORD_tk NEWLINE_tk
+            {
+                printf("You entered a string with newline\n");
+            }
+    | WORD_tk AMP_tk
+            {
+                printf("You entered a statement\n");
+            }
+    | WORD_tk AMP_tk NEWLINE_tk
+        {
+            printf("You entered a statement with a newline\n");
+        }
+            ;

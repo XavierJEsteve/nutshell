@@ -1,18 +1,13 @@
 %{
     //#include "ns_token.h"
     #include "ns_parse.tab.h"
+    #include <string>
+
 %}
 extern char *yytext;
 
 %option noyywrap
 %option yylineno
-
-
-QUOTE    ["]
-NOTQUOTE [^"]
-
-METAC    [<>|"\&"]
-TILDE    [~]
 
 %%
 
@@ -25,14 +20,18 @@ TILDE    [~]
 "\\" { printf("(meta %s %u)\n", yytext, yylineno); }
 \"   { printf("(meta %s %u)\n", yytext, yylineno); }
 
-\"([^\\\"]|\\.)*\"              {return WORD_tk;}
+[a-zA-Z0-9\.\/-]+              { yylval.string = yytext; return WORD_tk; }
+\"(\\.|[^"\n])*\"              {
+                                    char sub[yyleng - 1];
+                                    strncpy(sub, yytext + 1, (yyleng - 2));
+                                    sub[yyleng - 2] = '\0';
+                                    yylval.string=strdup(sub); 
+                                    return WORD_tk; 
+                                }
+
 [ \t]                  	        { /* Whitespace - ignore */ }
-\n                              {return NEWLINE_tk;}
+\n                              {return 0;}
 .                               {return (int) yytext[0];}
-
-
-
-
-<<EOF>>                         { return BYE;}
+<<EOF>>                         { return BYE_tk;}
 
 %%
