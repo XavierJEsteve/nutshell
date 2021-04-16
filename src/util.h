@@ -34,6 +34,7 @@ typedef struct arglist_t {
 
 /* FUNCTION DEFINITIONS */
 void show_arguments(arglist_t * arglist);
+std::vector<arg_t> arglist_to_vect(arglist_t * arglist);
 
 
 

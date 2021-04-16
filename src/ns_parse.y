@@ -64,6 +64,7 @@ arg_list:
                             new_arglist->next = $1;
                             $$ = new_arglist;
                             show_arguments(new_arglist);
+                            arglist_to_vect(new_arglist);
                             printf("Chaining arguments \n"); 
                         }
     | arg               {   
