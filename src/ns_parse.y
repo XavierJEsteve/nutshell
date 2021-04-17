@@ -15,6 +15,8 @@
     void yyerror(const char *e){
         fprintf(stderr," ERROR: %s\n", e);
     }
+
+    std::vector<char*> arg_vect_str;
 %}
 
 %union {
@@ -44,6 +46,17 @@
 
 %% 
 
+command:
+    word arg_list_empty {
+                            command_t *new_command = (command_t*)malloc(sizeof(command_t));
+                            new_command->command = $1;
+                            new_command->arguments = arglist_to_flip_str_vect($2);
+                            //WORKS!!
+                            // for (auto x : new_command->arguments){
+                            //     std::cout << ' ' << x << std::endl;
+                            // }
+                        }
+    ;
 
 arg_list_empty:   
                         {
@@ -63,8 +76,7 @@ arg_list:
                             new_arglist->data = $2;
                             new_arglist->next = $1;
                             $$ = new_arglist;
-                            show_arguments(new_arglist);
-                            arglist_to_vect(new_arglist);
+                            //show_arguments(new_arglist);
                             printf("Chaining arguments \n"); 
                         }
     | arg               {   

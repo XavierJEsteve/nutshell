@@ -13,8 +13,8 @@
 // a command includes the keyword (i.e. cat) and its associated arguments
 typedef struct command_t {
     int num_args;
-    char *data;
-    std::vector<char*> arguemnts;
+    char *command;
+    std::vector<char*> arguments;
 } command_t;
 
 typedef struct command_list_t {
@@ -34,7 +34,7 @@ typedef struct arglist_t {
 
 /* FUNCTION DEFINITIONS */
 void show_arguments(arglist_t * arglist);
-std::vector<arg_t> arglist_to_vect(arglist_t * arglist);
+std::vector<char*> arglist_to_flip_str_vect(arglist_t * arglist);
 
 
 
