@@ -24,7 +24,8 @@
     int             ival;
     arg_t*          arg_data;
     arglist_t*      arglist_data;
-    //infile
+    command_t*      command_data;
+    commandlist_t*  commandlist_data;
     //outfile
 }
 
@@ -32,6 +33,10 @@
 %type <arg_data> arg
 %type <arglist_data> arg_list
 %type <arglist_data> arg_list_empty
+%type <command_data> command
+%type <commandlist_data> command_list
+%type <commandlist_data> command_list_empty
+
 %token <string> WORD_tk
 %token FILEIN_tk FILEOUT_tk PIPE_tk
 %token STDOUT_tk STDERR_tk 
@@ -46,11 +51,44 @@
 
 %% 
 
+command_list_empty:
+                        {
+                            commandlist_t *new_commandlist = (commandlist_t*)malloc(sizeof(commandlist_t));
+                            new_commandlist->data = NULL;
+                            new_commandlist->next = NULL;
+                            $$ = new_commandlist;
+                        }
+        | command_list      {
+                            $$ = $1;
+                        }
+        ;
+    ;
+
+
+ command_list:
+     command_list PIPE_tk command   {
+                                        commandlist_t *new_commandlist = (commandlist_t*)malloc(sizeof(commandlist_t));
+                                        new_commandlist->data = $3;
+                                        new_commandlist->next = $1;
+                                        $$ = new_commandlist;
+                                    }
+     | command                      {
+                                        commandlist_t *new_commandlist = (commandlist_t*)malloc(sizeof(commandlist_t));
+                                        new_commandlist->data = $1;
+                                        new_commandlist->next = NULL;
+                                        $$ = new_commandlist;
+                                    }
+     ;
+
+
 command:
     word arg_list_empty {
                             command_t *new_command = (command_t*)malloc(sizeof(command_t));
                             new_command->command = $1;
                             new_command->arguments = arglist_to_flip_str_vect($2);
+                            new_command->num_args = new_command->arguments.size();
+                            //std::cout << "Num args " << new_command->num_args;
+                            $$ = new_command;
                             //WORKS!!
                             // for (auto x : new_command->arguments){
                             //     std::cout << ' ' << x << std::endl;

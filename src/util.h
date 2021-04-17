@@ -17,10 +17,10 @@ typedef struct command_t {
     std::vector<char*> arguments;
 } command_t;
 
-typedef struct command_list_t {
-    struct command_t data;
-    struct command_list_t* next;
-} command_list_t;
+typedef struct commandlist_t {
+    struct command_t* data;
+    struct commandlist_t* next;
+} commandlist_t;
 
 
 typedef struct arg_t {
