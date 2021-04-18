@@ -29,16 +29,18 @@
     //outfile
 }
 
-%type <string> word
-%type <arg_data> arg
-%type <arglist_data> arg_list
-%type <arglist_data> arg_list_empty
-%type <command_data> command
-%type <commandlist_data> command_list
-%type <commandlist_data> command_list_empty
+%type <string>              word
+%type <arg_data>            arg
+%type <arglist_data>        arg_list
+%type <arglist_data>        arg_list_empty
+%type <command_data>        command
+%type <commandlist_data>    command_list
+%type <commandlist_data>    command_list_empty
+%type <string>              file_input
 
 %token <string> WORD_tk
-%token FILEIN_tk FILEOUT_tk PIPE_tk
+%token FILEIN_tk
+%token FILEOUT_tk PIPE_tk
 %token STDOUT_tk STDERR_tk 
 %token NEWLINE_tk
 %token AMP_tk
@@ -51,6 +53,13 @@
 
 %% 
 
+run_command:
+    command_list_empty {
+                        run($1);
+                        return 0;
+                    }
+    ;
+
 command_list_empty:
                         {
                             commandlist_t *new_commandlist = (commandlist_t*)malloc(sizeof(commandlist_t));
@@ -58,11 +67,10 @@ command_list_empty:
                             new_commandlist->next = NULL;
                             $$ = new_commandlist;
                         }
-        | command_list      {
+        | command_list  {
                             $$ = $1;
                         }
         ;
-    ;
 
 
  command_list:
@@ -135,6 +143,7 @@ arg:
             $$ = new_arg;
             printf("Don't you dare argue with me\n"); 
         }
+        ;
 
 word:
     WORD_tk
@@ -145,7 +154,8 @@ word:
                 strncpy(w, $1, strsize);
                 w[strsize] = 0;
                 $$ = w;
-                printf("%s is the word \n", w); 
+                printf("%s is a word \n", w); 
             }
-            ;
+            ;    
+
 %%

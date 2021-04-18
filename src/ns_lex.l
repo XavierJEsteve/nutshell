@@ -11,10 +11,11 @@ extern char *yytext;
 
 %%
 
-">>" { return STDOUT_tk; }
-"2>" { return STDERR_tk; }
+
 "<"  { return FILEIN_tk; }
 ">"  { return FILEOUT_tk; }
+">>" { return STDOUT_tk; }
+"2>" { return STDERR_tk; }
 "|"  { return PIPE_tk; }
 "&"  { return AMP_tk; }
 "\\" { printf("(meta %s %u)\n", yytext, yylineno); }
@@ -30,7 +31,7 @@ extern char *yytext;
                                 }
 
 [ \t]                  	        { /* Whitespace - ignore */ }
-\n                              {return 0;}
+\n                               {return NEWLINE_tk;}
 .                               {return (int) yytext[0];}
 <<EOF>>                         { return BYE_tk;}
 

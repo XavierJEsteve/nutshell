@@ -2,7 +2,10 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <map>
+#include <stdlib.h>
 
+/* Bison Fucntions */
 void show_arguments(arglist_t * arglist){
     int count = 0;
     std::vector<char*> arg_vector;
@@ -42,3 +45,107 @@ std::vector<char*> arglist_to_flip_str_vect(arglist_t * arglist){
     return arg_vector;
 }
 
+// /* Initialization functions */
+// void build_environment(int num_vars){
+//     //Mandatory environment variables include HOME and PATH
+    
+//     std::map<char*,char*> environment_map   { 
+//                                                 {"PATH" : getenv("PATH"}, 
+//                                                 {"HOME" : getenv("HOME"} 
+//                                             };
+
+// }
+
+/* Check Builtin
+* This is a quick logic check to determine if the command is a built in so it can be handled accordingly.
+*/
+int check_builtin(command_t* command){
+    // Early testing would show checking every word is the DUMBEST idea I've ever had
+    //  Check first word of a command instead, duh
+    // Next write up a function, prob called from parse.y, that will send commands to be verified and executed
+    if (strcmp(command->command, "setenv") == 0) 
+        return 1;
+    if (strcmp(command->command, "printenv") == 0) 
+        return 1;
+    if (strcmp(command->command, "unsetenv") == 0) 
+        return 1;
+    if (strcmp(command->command, "cd") == 0) 
+        return 1;
+    if (strcmp(command->command, "alias") == 0) 
+        return 1;
+    if (strcmp(command->command, "unalias") == 0) 
+        return 1;
+    if (strcmp(command->command, "bye") == 0) 
+        return 1;
+    return 0;
+}
+
+void run(commandlist_t* command) {
+    //Base command structure on rubric...if I get that far
+    
+    //Command_list->data->command...works
+    // std::cout << "Looks like you are trying to execute " << command->data->command <<std::endl;
+    // std::cout << "With arguments: ";
+    // for (auto x: command->data->arguments){
+    //     std::cout << x << ' ';
+    // }
+    //check if is a built in command
+    if (check_builtin(command->data))
+    {
+        run_builtin(command->data);
+    } 
+
+
+} 
+
+int run_builtin(command_t* command){
+    char* cmd;
+    cmd = command->command; //get command value
+    int err_code;
+    //guess where I had this stored 
+    if (strcmp(command->command, "setenv") == 0) 
+    {
+        //check that command is of form "setenv"
+        if (command->arguments.size() != 2)
+        {
+            handle_error();
+            return 0;
+        } 
+
+        else //returns zero on success, or -1 on error,
+        {
+            err_code = setenv(command->arguments.at(1), command->arguments.at(0), 1);
+            return(0);
+        }
+        return 1;    
+    }
+        
+    else if (strcmp(command->command, "printenv") == 0) 
+        return 1;
+        // char **env = environ;
+        // for (; *env; ++env)
+        // {
+        //     printf("%s\n", *env);
+        // }
+
+    else if (strcmp(command->command, "unsetenv") == 0) 
+    {
+        err_code = unsetenv(command->arguments.at(0)); //don't feel like using some fancy errno.h
+        return err_code + 1; 
+    }        //returns zero on success, or -1 on error,
+       
+    else if (strcmp(command->command, "cd") == 0) 
+        return 1;
+    else if (strcmp(command->command, "alias") == 0) 
+        return 1;
+    else if (strcmp(command->command, "unalias") == 0) 
+        return 1;
+    else if (strcmp(command->command, "bye") == 0) 
+        return 1;
+    else
+        return 0;
+}
+
+void handle_error(){
+    printf("uh something went wrong");
+}

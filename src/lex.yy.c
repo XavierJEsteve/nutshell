@@ -385,7 +385,7 @@ struct yy_trans_info
 static const flex_int16_t yy_accept[25] =
     {   0,
         0,    0,   15,   13,   11,   12,    8,    6,    9,    9,
-        3,    4,    7,    5,    0,   10,    0,    9,    2,    1,
+        1,    2,    7,    5,    0,   10,    0,    9,    4,    3,
         0,   10,    0,    0
     } ;
 
@@ -707,7 +707,8 @@ YY_DECL
 #line 12 "ns_lex.l"
 
 
-#line 711 "lex.yy.c"
+
+#line 712 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -776,52 +777,52 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 14 "ns_lex.l"
-{ return STDOUT_tk; }
+#line 15 "ns_lex.l"
+{ return FILEIN_tk; }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 15 "ns_lex.l"
-{ return STDERR_tk; }
+#line 16 "ns_lex.l"
+{ return FILEOUT_tk; }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 16 "ns_lex.l"
-{ return FILEIN_tk; }
+#line 17 "ns_lex.l"
+{ return STDOUT_tk; }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 17 "ns_lex.l"
-{ return FILEOUT_tk; }
+#line 18 "ns_lex.l"
+{ return STDERR_tk; }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 18 "ns_lex.l"
+#line 19 "ns_lex.l"
 { return PIPE_tk; }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 19 "ns_lex.l"
+#line 20 "ns_lex.l"
 { return AMP_tk; }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 20 "ns_lex.l"
+#line 21 "ns_lex.l"
 { printf("(meta %s %u)\n", yytext, yylineno); }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 21 "ns_lex.l"
+#line 22 "ns_lex.l"
 { printf("(meta %s %u)\n", yytext, yylineno); }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 23 "ns_lex.l"
+#line 24 "ns_lex.l"
 { yylval.string = yytext; return WORD_tk; }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 24 "ns_lex.l"
+#line 25 "ns_lex.l"
 {
                                     char sub[yyleng - 1];
                                     strncpy(sub, yytext + 1, (yyleng - 2));
@@ -832,30 +833,30 @@ YY_RULE_SETUP
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 32 "ns_lex.l"
+#line 33 "ns_lex.l"
 { /* Whitespace - ignore */ }
 	YY_BREAK
 case 12:
 /* rule 12 can match eol */
 YY_RULE_SETUP
-#line 33 "ns_lex.l"
-{return 0;}
+#line 34 "ns_lex.l"
+{return NEWLINE_tk;}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 34 "ns_lex.l"
+#line 35 "ns_lex.l"
 {return (int) yytext[0];}
 	YY_BREAK
 case YY_STATE_EOF(INITIAL):
-#line 35 "ns_lex.l"
+#line 36 "ns_lex.l"
 { return BYE_tk;}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 37 "ns_lex.l"
+#line 38 "ns_lex.l"
 ECHO;
 	YY_BREAK
-#line 859 "lex.yy.c"
+#line 860 "lex.yy.c"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -1870,5 +1871,5 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 37 "ns_lex.l"
+#line 38 "ns_lex.l"
 

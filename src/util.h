@@ -6,9 +6,10 @@
 #include <vector>
 #include <array>
 #include <list>
+#include <cstring>
+#include <unistd.h>
 
-
-
+extern char **environ;
 
 // a command includes the keyword (i.e. cat) and its associated arguments
 typedef struct command_t {
@@ -32,14 +33,22 @@ typedef struct arglist_t {
     struct arglist_t* next; //this should allow recursively defined list
 } arglist_t;
 
-/* FUNCTION DEFINITIONS */
+/* Variable and data initialization functions */
+//void build_environment(int num_vars);
+
+
+/* Fhelper functions */
 void show_arguments(arglist_t * arglist);
 std::vector<char*> arglist_to_flip_str_vect(arglist_t * arglist);
+int check_builtin(command_t* command);
 
-
-
+/*      Command Execution       */
+void run(commandlist_t* command);
+int run_builtin(command_t* command);
+//int setenv(command_t* command); shit's already in std lib yo
 /************************/
 
+void handle_error();
 
 // END UTIL_H_
 #endif 
