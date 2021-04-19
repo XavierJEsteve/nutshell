@@ -98,52 +98,84 @@ void run(commandlist_t* command) {
 
 } 
 
-int run_builtin(command_t* command){
+void run_builtin(command_t* command){
     char* cmd;
     cmd = command->command; //get command value
     int err_code;
     //guess where I had this stored 
     if (strcmp(command->command, "setenv") == 0) 
     {
+        std::cout << "Setting environment variable " << 
+        (command->arguments.at(0)) << " == " << (command->arguments.at(1)) << std::endl;
         //check that command is of form "setenv"
         if (command->arguments.size() != 2)
         {
             handle_error();
-            return 0;
         } 
 
         else //returns zero on success, or -1 on error,
         {
-            err_code = setenv(command->arguments.at(1), command->arguments.at(0), 1);
-            return(0);
+            err_code = setenv(command->arguments.at(0), command->arguments.at(1), 1);
         }
-        return 1;    
     }
         
     else if (strcmp(command->command, "printenv") == 0) 
-        return 1;
-        // char **env = environ;
-        // for (; *env; ++env)
-        // {
-        //     printf("%s\n", *env);
-        // }
+        
+        printf("Need to figure out printing environment");
+        //return 1;
+        
 
     else if (strcmp(command->command, "unsetenv") == 0) 
     {
         err_code = unsetenv(command->arguments.at(0)); //don't feel like using some fancy errno.h
-        return err_code + 1; 
     }        //returns zero on success, or -1 on error,
        
     else if (strcmp(command->command, "cd") == 0) 
-        return 1;
-    else if (strcmp(command->command, "alias") == 0) 
-        return 1;
+    {
+        change_directory(command);
+    }
+        
+    else if (strcmp(command->command, "alias") == 0)
+    {
+        if (command->num_args == 0) 
+            printf("Need to figure out printing Aliases");
+        else if (command->num_args == 2){
+            printf("Need to figure out seting Aliases");
+        }
+        else{ 
+            handle_error();
+        }
+    }    
+
     else if (strcmp(command->command, "unalias") == 0) 
-        return 1;
+    {  
+        if (command->num_args == 1)
+            printf("Need to figure out removing Aliases");
+        else
+            handle_error();
+    }    
     else if (strcmp(command->command, "bye") == 0) 
-        return 1;
+    {
+        printf("I want to exit more gracefully");
+        exit(0);
+    }   
     else
-        return 0;
+        handle_error();
+}
+
+void change_directory(command_t *command)
+{
+    char *dir;
+    if (command->num_args == 0) 
+        dir = getenv("HOME");
+    else
+        dir = command->arguments.at(0);
+    //int result = chdir(dir);
+    if (chdir(dir) == 0)
+        printf("Need to figure out changing ddirectory");
+        //char buff[1024];
+        //getcwd(buff, 1023);
+        //setenv("PWD", buff, 1);
 }
 
 void handle_error(){

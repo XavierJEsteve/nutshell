@@ -33,6 +33,6 @@ extern char *yytext;
 [ \t]                  	        { /* Whitespace - ignore */ }
 \n                               {return NEWLINE_tk;}
 .                               {return (int) yytext[0];}
-<<EOF>>                         { return BYE_tk;}
+<<EOF>>                         { return 0;}
 
 %%

@@ -849,7 +849,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case YY_STATE_EOF(INITIAL):
 #line 36 "ns_lex.l"
-{ return BYE_tk;}
+{ return 0;}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP

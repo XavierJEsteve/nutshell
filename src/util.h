@@ -44,7 +44,9 @@ int check_builtin(command_t* command);
 
 /*      Command Execution       */
 void run(commandlist_t* command);
-int run_builtin(command_t* command);
+void run_builtin(command_t* command);
+void change_directory(command_t *command);
+
 //int setenv(command_t* command); shit's already in std lib yo
 /************************/
 

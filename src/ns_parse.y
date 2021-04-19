@@ -7,6 +7,7 @@
     #include <algorithm>
     #include <iostream>
     #include "util.h"
+    #include <cassert>
 
     int yylex(void);
     
@@ -55,13 +56,15 @@
 
 run_command:
     command_list_empty {
+                        printf("Preparing to run");
                         run($1);
                         return 0;
-                    }
+                        }
     ;
 
 command_list_empty:
                         {
+                            printf("Made empty command_list");
                             commandlist_t *new_commandlist = (commandlist_t*)malloc(sizeof(commandlist_t));
                             new_commandlist->data = NULL;
                             new_commandlist->next = NULL;
@@ -81,6 +84,7 @@ command_list_empty:
                                         $$ = new_commandlist;
                                     }
      | command                      {
+                                        printf("Made command_list");
                                         commandlist_t *new_commandlist = (commandlist_t*)malloc(sizeof(commandlist_t));
                                         new_commandlist->data = $1;
                                         new_commandlist->next = NULL;
@@ -91,6 +95,7 @@ command_list_empty:
 
 command:
     word arg_list_empty {
+                            printf("Made command");
                             command_t *new_command = (command_t*)malloc(sizeof(command_t));
                             new_command->command = $1;
                             new_command->arguments = arglist_to_flip_str_vect($2);
@@ -106,6 +111,7 @@ command:
 
 arg_list_empty:   
                         {
+                            printf("Made empty arglist");
                             arglist_t *new_arglist = (arglist_t*)malloc(sizeof(arglist_t));
                             new_arglist->data = NULL;
                             new_arglist->next = NULL;
@@ -138,7 +144,9 @@ arg:
     word
         {
             /*Use malloc, or suffer segmentation faults*/
+            printf("testing if single word args make it here");
             arg_t *new_arg = (arg_t *)malloc(sizeof(arg_t));
+            assert(new_arg != NULL);
             new_arg->arg = strdup($1);
             $$ = new_arg;
             printf("Don't you dare argue with me\n"); 
@@ -150,11 +158,12 @@ word:
             {
                 /*Use malloc, or suffer segmentation faults*/
                 int strsize = strlen($1) + 1;
-                char *w = (char *)malloc(sizeof(char) * strlen($1) + 1);
-                strncpy(w, $1, strsize);
-                w[strsize] = 0;
-                $$ = w;
-                printf("%s is a word \n", w); 
+                char *word_ptr = (char *)malloc(sizeof(char) * strlen($1) + 1);
+                assert(word_ptr != NULL);
+                strncpy(word_ptr, $1, strsize);
+                word_ptr[strsize] = 0;
+                $$ = word_ptr;
+                printf("%s is a word \n", word_ptr); 
             }
             ;    
 
