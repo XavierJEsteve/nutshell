@@ -20,12 +20,23 @@ int main(void){
     //Enter state machine
     //state_machine();
     int token;
+    int status;
     while (1){
         print_line();
-        yyparse();
-        // token = yylex();
-        // printf("token ID is %d\n", token);
-        // printf("Enterred token was %s\n", yytext);
+        status = yyparse();
+        switch(status)
+        {
+            case 0:
+                //normal operation
+                break;
+            
+            case 1:
+                printf("[ERROR] : Invalid syntaxt. Please try again.\n");
+            
+            default:
+                break;
+        }
+
     }
     return 0;
 }

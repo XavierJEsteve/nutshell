@@ -37,8 +37,6 @@
 %type <command_data>        command
 %type <commandlist_data>    command_list
 %type <commandlist_data>    command_list_empty
-%type <string>              file_input
-
 %token <string> WORD_tk
 %token FILEIN_tk
 %token FILEOUT_tk PIPE_tk
@@ -53,6 +51,14 @@
 /* NOTE : Use malloc, or suffer segmentation faults*/
 
 %% 
+
+
+start: run_command_list
+
+run_command_list : command
+  | run_command NEWLINE_tk run_command_list
+  | NEWLINE_tk { return 0; }
+  ;
 
 run_command:
     command_list_empty {
@@ -71,6 +77,7 @@ command_list_empty:
                             $$ = new_commandlist;
                         }
         | command_list  {
+                            printf("Made empty command_list option 2");
                             $$ = $1;
                         }
         ;
@@ -118,6 +125,7 @@ arg_list_empty:
                             $$ = new_arglist;
                         }
         | arg_list      {
+                            printf("Made empty arglist option 2");
                             $$ = $1;
                         }
         ;

@@ -2,7 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-#include <map>
+
 #include <stdlib.h>
 
 /* Bison Fucntions */
@@ -17,12 +17,7 @@ void show_arguments(arglist_t * arglist){
 
         arglist = arglist->next;
         count++;
-    }
-
-    // for (auto x: arg_vector) {
-    //      std::cout << ' ' << x;
-    // }
-    
+    }    
 }
 
 std::vector<char*> arglist_to_flip_str_vect(arglist_t * arglist){
@@ -82,13 +77,6 @@ int check_builtin(command_t* command){
 
 void run(commandlist_t* command) {
     //Base command structure on rubric...if I get that far
-    
-    //Command_list->data->command...works
-    // std::cout << "Looks like you are trying to execute " << command->data->command <<std::endl;
-    // std::cout << "With arguments: ";
-    // for (auto x: command->data->arguments){
-    //     std::cout << x << ' ';
-    // }
     //check if is a built in command
     if (check_builtin(command->data))
     {
@@ -173,9 +161,6 @@ void change_directory(command_t *command)
     //int result = chdir(dir);
     if (chdir(dir) == 0)
         printf("Need to figure out changing ddirectory");
-        //char buff[1024];
-        //getcwd(buff, 1023);
-        //setenv("PWD", buff, 1);
 }
 
 void handle_error(){
